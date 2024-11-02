@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kod İnceleme</title>
+</head>
+<body>
+    <div id="codeInput">
+        <h1>Kod İnceleme Uygulaması</h1>
+        <form id="codeForm">
+            <textarea name="code" rows="10" placeholder="Kodunuzu buraya yazın..."></textarea><br>
+            <button type="submit">Kodun analizini benim için yap</button>
+        </form>
+    </div>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('codeForm').onsubmit = async function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const code = formData.get('code');
+
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Gönderiliyor...';
+
+            try {
+                const response = await fetch('/code_review', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    responseDiv.innerHTML = '<h2>İnceleme Sonucu:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                } else {
+                    responseDiv.innerHTML = '<h2>Hata:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                }
+            } catch (error) {
+                responseDiv.innerHTML = '<h2>Hata:</h2><pre>' + error.message + '</pre>';
+            }
+        };
+    </script>
+</body>
+</html>
