@@ -1,14 +1,20 @@
-# Flask Code Review API with ChatGPT
+# Python Code Review App
 
-Bu proje, Flask kullanarak kullanıcı tarafından gönderilen kodları analiz eden ve OpenAI'nin ChatGPT modelini kullanarak geri bildirim sağlayan bir API içerir. Proje, Vercel üzerinde deploy edilebilir ve çevresel değişkenleri `.env` dosyasından alır.
+Bu proje, Flask kullanarak kullanıcı tarafından gönderilen Python kodlarını analiz eden ve OpenAI'nin ChatGPT modelini kullanarak geri bildirim sağlayan bir web uygulamasıdır. Kullanıcılar, kodlarını gönderebilir ve yapay zeka tarafından sağlanan yorumlar ve öneriler alabilirler.
+
+## Özellikler
+
+- Kullanıcıdan Python kodu alır.
+- OpenAI API kullanarak kodu inceler ve geri bildirim sağlar.
+- Kullanıcı dostu bir arayüz ile kolay kullanım.
 
 ## Kurulum
 
 1. Projeyi klonlayın:
 
     ```bash
-    git clone <proje_linki>
-    cd <proje_klasörü>
+    git clone https://github.com/EmreGurbuzz/python-code-review-app.git
+    cd python-code-review-app
     ```
 
 2. Gerekli Python paketlerini yükleyin:
@@ -92,4 +98,4 @@ Projeyi çalıştırmak için aşağıdaki adımları izleyin:
 
 ---
 
-Bu README dosyası, projenin kurulum, çalıştırma ve deploy süreçleriyle ilgili temel bilgileri içermektedir. Ekstra sorularınız için lütfen belgelere başvurun veya proje sorumlusuyla iletişime geçin.
+Bu README dosyası, projenizin kurulumu, çalıştırılması ve deploy edilmesi hakkında temel bilgileri içermektedir. Ekstra sorularınız için lütfen belgelere başvurun veya proje sorumlusuyla iletişime geçin.
