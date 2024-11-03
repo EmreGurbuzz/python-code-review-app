@@ -9,12 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
 
 </head>
 
 <body>
     <div id="codeInput">
-        <h1 class="red">Kod İnceleme Uygulaması</h1>
+        <h2>Analiz edilecek kod:</h1>
         <form id="codeForm">
             <textarea name="code" rows="10" placeholder="Kodunuzu buraya yazın..."></textarea><br>
             <button type="submit">Kodun analizini benim için yap</button>
@@ -23,33 +26,45 @@
     <div id="response"></div>
 
     <script>
-        document.getElementById('codeForm').onsubmit = async function (event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const code = formData.get('code');
+     document.getElementById('codeForm').onsubmit = async function (event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    const code = formData.get('code');
 
-            const responseDiv = document.getElementById('response');
-            responseDiv.innerHTML = 'Gönderiliyor...';
+    const responseDiv = document.getElementById('response');
+    responseDiv.innerHTML = 'Analiz ediliyor...';
 
-            try {
-                const response = await fetch('/code_review', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ code })
-                });
+    try {
+        const response = await fetch('/code_review', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code })
+        });
 
-                const data = await response.json();
-                if (response.ok) {
-                    responseDiv.innerHTML = '<h2>İnceleme Sonucu:</h2><pre>' + data.review + '</pre>';
-                } else {
-                    responseDiv.innerHTML = '<h2>Hata:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
-                }
-            } catch (error) {
-                responseDiv.innerHTML = '<h2>Hata:</h2><pre>' + error.message + '</pre>';
-            }
-        };
+        const data = await response.json();
+        if (response.ok) {
+            const escapedReview = escapeHtml(data.review);
+            responseDiv.innerHTML = '<h2>İnceleme Sonucu:</h2><pre><code>' + escapedReview + '</code></pre>';
+        } else {
+            responseDiv.innerHTML = '<h2>Hata:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        }
+    } catch (error) {
+        responseDiv.innerHTML = '<h2>Hata:</h2><pre>' + error.message + '</pre>';
+    }
+};
+
+// HTML özel karakterlerini kaçırmak için bir fonksiyon
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
     </script>
 </body>
 

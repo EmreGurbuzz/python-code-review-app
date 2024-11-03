@@ -19,6 +19,7 @@ def code_review():
 
     prompt = f"Aşağıdaki kodu inceleyin ve bir üst düzey geliştirici gibi yorum yapın. " \
              f"iyileştirme önerilerinde bulunun " \
+             f"Eğer öneride bulunan kodu güncelleyebiliyorsan güncellenmiş halini de en sona ekle " \
              f"ve potansiyel sorunları vurgulayın. Yanıtlar Türkçe olsun:\n\n{user_code}\n"
 
     try:
@@ -28,7 +29,7 @@ def code_review():
                 {"role": "system", "content": "You are a senior developer reviewing code."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=500,
+            max_tokens=700,
             temperature=0.7,
         )
 
